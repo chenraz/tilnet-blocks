@@ -1,0 +1,23 @@
+
+ .wellcome-block {
+
+  .image-wrap {
+    position: absolute;
+    width: 45%;
+    left: 35%;
+    bottom: 0;
+  }
+  .logo-wrap {
+    position: absolute;
+    top: 37%;
+    left: 11%;
+    width: 34.3%;
+  }
+  .content {
+    background-image:url(./bubble.png);
+  }
+  .inner-content {
+    padding: 18px;
+    line-height: 1;
+  }
+}

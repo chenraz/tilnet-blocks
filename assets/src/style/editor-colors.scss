@@ -1,0 +1,13 @@
+@import '../local-react-components/style/colors/mixins.scss';
+
+button.components-color-palette__item[aria-label="Color: Radial Yellow"]:not(.is-active),
+span.component-color-indicator[aria-label="(current background color: Radial Yellow)"]{
+    @extend %radial-yellow;
+    color: transparent !important;
+}
+
+button.components-color-palette__item[aria-label="Color: Radial Blue"]:not(.is-active),
+span.component-color-indicator[aria-label="(current background color: Radial Blue)"]{
+    @extend %radial-blue;
+    color: transparent !important;   
+}
