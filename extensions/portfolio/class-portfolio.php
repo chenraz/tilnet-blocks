@@ -124,9 +124,11 @@ if (!class_exists('\Tilnet\Portfolio\Portfolio')) :
                     'most_used'                  => _x( 'Most Used', 'til_type', 'tilnet-blocks' ),
                     'back_to_items'              => __( '&larr; Back to Types', 'tilnet-blocks' ),
                 ),
-                'show_in_rest'      => true,
-                'rest_base'         => 'til_type',
-                'rest_controller_class' => 'WP_REST_Terms_Controller',
+                'show_in_rest'                  =>  true,
+                'rest_base'                     => 'til_type',
+                'rest_controller_class'         => 'WP_REST_Terms_Controller',
+                'show_in_quick_edit'            =>  true,
+                'show_admin_column'             =>  true,
             ) );
 
         }

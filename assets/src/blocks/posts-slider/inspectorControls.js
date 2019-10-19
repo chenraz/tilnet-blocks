@@ -25,7 +25,6 @@ const {
  * Internal Dependencies
  */
 
-
 /**
  * Module Constants
  */
@@ -68,7 +67,6 @@ const InspectorControls = (
 						onChange={ ( value ) => setAttributes( { postType: value,taxonomy: '' } ) }
 						options = {postsTypesList}
 					/>
-
 					<SelectControl
 						label={ __( 'Taxonomy' ) }
 						value={ taxonomy }

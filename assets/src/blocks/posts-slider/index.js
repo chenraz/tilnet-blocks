@@ -12,7 +12,8 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  */
 import Icon from './svgIcon';
 import edit from './edit';
-import attributes from './attributes';
+// import attributes from './attributes';
+import attributes from '../../local-react-components/blocks/posts-slider/attributes';
 
 /**
  * Register: aa Gutenberg Block.

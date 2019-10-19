@@ -5,7 +5,7 @@
  /**
   * Externals
   */
-import {assign} from 'lodash';
+import {assign,defaultTo} from 'lodash';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { addFilter } = wp.hooks;
@@ -43,9 +43,11 @@ export const addAttribute = (settings) => {
  * @param {*} props 
  */
 export const useFullPage = (props) => {
-    const defaultIsFullPage = isUndefined(props.attributes.isFullPage)
-        ?   false
-        :   props.attributes.isFullPage;
+    // const defaultIsFullPage = isUndefined(props.attributes.isFullPage)
+    //     ?   false
+    //     :   props.attributes.isFullPage;
+
+        const defaultIsFullPage = defaultTo (props.attributes.isFullPage, false);
 
         const [className,isFullPage,updateIsFullPage] = useAttributeAndClass(
             {

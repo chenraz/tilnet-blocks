@@ -12,7 +12,9 @@ const { addFilter } = wp.hooks;
  * Internals
  */
 import HeadingWithVertical from './headingWithVertical';
-import {withColor} from '../../components/colors';
+// import {withColor} from '../../components/colors';
+import {withWpColors} from '../../components/colors';
+
 
 const enableOnBlocks = [
     'core/heading',
@@ -20,7 +22,8 @@ const enableOnBlocks = [
 
 const tilnetHeading = ( 
     WrappedComponent => (
-        withColor('textColor',enableOnBlocks) (
+        withWpColors('textColor',enableOnBlocks) (
+            // withColor('textColor',enableOnBlocks) (
             props => {
 
                 if ( enableOnBlocks.includes( props.name ) ) {

@@ -8,6 +8,7 @@
   */
 import { Fragment } from 'react';
 import classNames from 'classnames/dedupe';
+import {defaultTo} from 'lodash';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -26,7 +27,8 @@ import '../../local-react-components/blocks/wellcome/style.scss';
 import './editor.scss';
 import Wellcome from '../../local-react-components/blocks/wellcome'
 import ImageUpload from '../../components/imageUpload';
-import {withWpColor} from '../../components/colors';
+// import {withWpColor} from '../../components/colors';
+import {withWpColors} from '../../components/colors';
 
 
 /**
@@ -89,8 +91,9 @@ registerBlockType( 'til/wellcome', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	edit: compose([
-		withWpColor('backgroundColor'),
-		withWpColor('textColor')
+		// withWpColor('backgroundColor'),
+		// withWpColor('textColor')
+		withWpColors('backgroundColor','textColor')
 	])(( props ) => {
 		const { 
 			attributes: { text,tagline,image,logo,className }, 
@@ -124,12 +127,12 @@ registerBlockType( 'til/wellcome', {
 						initialOpen={ true }
 						colorSettings={ [ 
 							{
-								value: backgroundColor.color,
+								value: defaultTo(backgroundColor.color,''),
 								onChange: setBackgroundColor,
 								label: __( 'Background Color' ),
 							},
 							{
-								value: textColor.color,
+								value: defaultTo(textColor.color,''),
 								onChange: setTextColor,
 								label: __( 'Text Color' ),
 							}							

@@ -1,7 +1,7 @@
 /**
  * Externals
  */
-import { isUndefined, pickBy } from 'lodash';
+import { isUndefined, pickBy,isEmpty } from 'lodash';
 const { withSelect } = wp.data;
 
 /**
@@ -24,17 +24,75 @@ const withPostOptions = withSelect ((select,props)=>{
 	const { getBlockTypes } = select('core/blocks');
 	const { postType } = props.attributes;
 
-	return {
-		postsTypesList: getPostsTypesList(
-			getPostTypes()
-		),
-		blocksTypesList: getBlocksTypesList(
-			getBlockTypes()
-		),
-		taxonomiesList: getTaxonomiesList(
+	// console.log ('getting taxonomiesList');
+	// const taxonomies = getTaxonomies({type: postType});
+	// console.log ('got the typeof taxonomies',typeof taxonomies);
+
+	const postsTypesList = getPostsTypesList(
+		getPostTypes()
+	);
+
+	const blocksTypesList = getBlocksTypesList(
+		getBlockTypes()
+	);
+
+	// const taxonomiesList = () => {
+	// 	let taxonomiesList;
+	// 	try {
+	// 		console.log ('taxonomiesList trying');
+	// 		taxonomiesList = getTaxonomiesList(
+	// 			getTaxonomies({type: postType}
+	// 		));
+	// 	}
+	// 	catch (e) {
+	// 		console.log ('taxonomiesListcaught and error');
+	// 		taxonomiesList = null;
+	// 	}
+	// 	console.log ('taxonomiesList returning:',taxonomiesList);
+	// 	return taxonomiesList;
+	// };
+	// async function taxonomiesList () {
+	// 	let taxonomiesList;
+	// 	try {
+	// 		taxonomiesList = getTaxonomiesList (
+	// 			getTaxonomies({type: postType})
+	// 		);
+	// 	}
+	// 	catch (e) {
+	// 		console.log ('caught you motherfucker');
+	// 		taxonomiesList = [];
+	// 	}
+	// 	finally {
+	// 		console.log ('finally');
+	// 	}
+
+	// 	return taxonomiesList;
+
+	// }
+		
+	const taxonomiesList = (
+		getTaxonomiesList (
 			getTaxonomies({type: postType})
-		),
-	};
+		)		
+	);
+
+	return {
+		postsTypesList: postsTypesList,
+		blocksTypesList: blocksTypesList,
+		taxonomiesList: taxonomiesList,
+	};	
+
+	// return {
+	// 	postsTypesList: getPostsTypesList(
+	// 		getPostTypes()
+	// 	),
+	// 	blocksTypesList: getBlocksTypesList(
+	// 		getBlockTypes()
+	// 	),
+	// 	taxonomiesList: getTaxonomiesList(
+	// 		getTaxonomies({type: postType})
+	// 	),
+	// };
 
 });
 

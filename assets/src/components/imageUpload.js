@@ -17,7 +17,7 @@ const ImageUpload = (props) => {
 
     return (
         <MediaUpload
-            onSelect={ onSetImage }
+            onSelect={  onSetImage }
             value={ image }
             render={ ( { open } ) => (
                 <Button onClick={ open }>

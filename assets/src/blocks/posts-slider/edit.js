@@ -13,6 +13,7 @@ import { Fragment,useRef } from 'react';
 const { __ } = wp.i18n;
 const {
 	BlockControls,
+	withColors,
 } = wp.blockEditor;
 const { compose } = wp.compose;
 
@@ -30,7 +31,9 @@ import {withPostOptions,withSliderPosts} from './resolvers'
 
 import Placeholder from './placeHolder';
 import InspectorControls from './inspectorControls';
-import {withWpColor} from '../../components/colors';
+// import {withWpColor} from '../../components/colors';
+import {withWpColors} from '../../components/colors';
+
 
 import withMouseNavigation from '../../components/mouseNavigation';
 
@@ -59,21 +62,21 @@ const PostSliderEdit = (
 			sliderPosts.slice( 0, postsToShow ) :
 			sliderPosts;
 
-		if ( ! hasPosts ) {
-			return (
-				<Fragment>
-					<InspectorControls key='inspectors' {...props} />
-					<Placeholder key='holder' sliderPosts={sliderPosts} />
+		// if ( ! hasPosts ) {
+		// 	return (
+		// 		<Fragment>
+		// 			<InspectorControls key='inspectors' {...props} />
+		// 			<Placeholder key='holder' sliderPosts={sliderPosts} />
 
-				</Fragment>
-			);
-		}
+		// 		</Fragment>
+		// 	);
+		// }
 
 		return (
 			<Fragment > 
 				<InspectorControls key='inspectors' {...props} />
-					<BlockControls key='blockControls' />
-					<Slider key='slider' {...props} {...attributes} exerptEl={exerptEl} Block={Block} />
+				<BlockControls key='blockControls' />
+				<Slider key='slider' {...props} {...attributes} exerptEl={exerptEl} Block={Block} />
 
 			</Fragment> 
 		);		
@@ -83,8 +86,11 @@ const PostSliderEdit = (
 const EditFunc = compose([
 	withPostOptions,
 	withSliderPosts,
-	withWpColor('textColor'),
-	withWpColor('accentColor'),
+	// withColors('textColor'),
+	// withColors('accentColor'),	
+	// withWpColor('textColor'),
+	// withWpColor('accentColor'),
+	withWpColors('textColor','accentColor'),
 	withMouseNavigation,
 ])( PostSliderEdit );
 

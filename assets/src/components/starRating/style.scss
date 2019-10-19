@@ -1,0 +1,25 @@
+.dv-star-rating {
+    label {
+        height: 36px;
+        width: 36px;
+    }
+    svg {
+        font-size: 36px;
+        &.half-star {
+            font-size: 39px;
+        }
+    }
+    .dv-star-rating-star {
+        svg.star {
+            path:last-child {
+                display: none;
+            }
+        }
+
+    }
+    .dv-star-rating-empty-star {
+        svg.star {
+            fill: none !important;;
+        }
+    }    
+}

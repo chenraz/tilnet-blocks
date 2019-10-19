@@ -144,7 +144,15 @@ if (!class_exists('\Tilnet\Block')) :
                     'editor_script' => 'tilnet/editor-scripts',
                     'editor_style'  => 'tilnet/stylesheets',
                 )
-            );            
+            );        
+            
+            // review block
+            register_block_type(
+                'til/review', array(
+                    'editor_script' => 'tilnet/editor-scripts',
+                    'editor_style'  => 'tilnet/stylesheets',
+                )
+            );               
         }   
         
         /**

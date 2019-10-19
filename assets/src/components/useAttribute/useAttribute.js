@@ -1,9 +1,13 @@
 /**
  * Externals
  */
-import {useEffect,useState} from 'react';
-import {isEqual,isUndefined} from 'lodash';
+// import {useEffect,useState} from 'react';
+import {isEqual,isUndefined,defaultTo} from 'lodash';
 import classNames from 'classnames/dedupe';
+
+const {useEffect,useState,useCallback} = wp.element;
+
+
 
 /**
  * 
@@ -12,46 +16,58 @@ import classNames from 'classnames/dedupe';
  */
 const useAttributeClass = (attrObj,props) => {
 
-    const {attrName,attrClassName,attrDefault} = attrObj;
     const {attributes,setAttributes} = props;
 
-    let className,classArr;
+    console.log ('useAttributeClass starts:',attrObj,attributes);
 
-    const setClassName = () => {
-        
-        let currentAttrClass = classNames(attributes.className)
-        
-        if ('function' === typeof attrClassName) {
-            classArr = attrClassName(props.attributes);
-        } 
-        else {
+    let currentAttrClass = classNames(attributes.className);
+    let className = currentAttrClass;
 
-            const attrVal = isUndefined(attributes[attrName])
-            ?   attrDefault
-            :   attributes[attrName];  
+    const {attrName,attrClassName,attrDefault} = attrObj;
+    
+    // const attrVal = isUndefined(attributes[attrName])
+    //     ?   attrDefault
+    //     :   attributes[attrName];  
 
-            classArr= new Object();
-            classArr[attrClassName] = attrVal;
+    const attrVal = defaultTo (attributes[attrName],attrDefault);
+
+    const getClassName = 
+        // useCallback(
+        () => {
+            
+            let classArr;
+    
+            // if ('function' === typeof attrClassName) {
+            //     classArr = attrClassName(attributes);
+            // } 
+            // else {
+    
+                classArr= new Object();
+                classArr[attrClassName] = attrVal;
+            // }
+            
+            return classNames(currentAttrClass,classArr);
+    
         }
-        
-        className = classNames(currentAttrClass,classArr);
-
-
-        if (! isEqual(className,currentAttrClass)) {
-
-            setAttributes({className:className});
-            currentAttrClass = className;
-        }
-        
-    }
+        // },
+        // [currentAttrClass,attrClassName,attrVal,attrName]
+    // );    
 
     useEffect(()=> {
 
-        setClassName();
+        className = getClassName();
+        console.log ('useAttributeClass useEffect',className);
 
     });  
+    if (! isEqual(className,currentAttrClass)) {
+
+        setAttributes({className:className});
+        currentAttrClass = className;
+    }    
     
-    return className;
+    console.log ('useAttributeClass done',currentAttrClass);
+
+    return currentAttrClass;
 }
 
 /**

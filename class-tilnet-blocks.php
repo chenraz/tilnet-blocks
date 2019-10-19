@@ -109,6 +109,7 @@ if (!class_exists('Tilnet_Blocks')) :
                 'Block'     => Block\Block::instance(),
                 'Rest_Api'  => Rest_Api\Rest_Api::instance(),
                 'Portfolio' => Portfolio\Portfolio::instance(),
+                'Review'    =>  Review\Review::instance(),
             ];
         }
         
@@ -118,8 +119,15 @@ if (!class_exists('Tilnet_Blocks')) :
         public static function add_actions () 
         {
             add_action('plugins_loaded',array(__CLASS__,'load_text_domain'));
-        }  
+            register_activation_hook (__FILE__,[__CLASS__,'activation']);
+        } 
         
+        public static function activation ()
+        {
+            do_action ('tilnet_block_activation');
+        }
+
+
         /**
          * 
          */

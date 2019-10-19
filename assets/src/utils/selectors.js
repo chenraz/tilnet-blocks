@@ -5,7 +5,7 @@
  /**
   * Externals
   */
-import { reduce, filter,map,flatten,kebabCase,isUndefined } from 'lodash';
+import { reduce, filter,map,flatten,kebabCase,isUndefined,isEmpty } from 'lodash';
 const { createBlock } = wp.blocks;
 const { __ } = wp.i18n;
 
@@ -18,79 +18,97 @@ import { API_NAMESPACE } from './constants';
  * 
  * @param {*} blockTypes 
  */
-export const getBlocksTypesList = (blockTypes) => reduce(
-    blockTypes,
-    ((r,v)=>{
-        if(0===v.name.indexOf( API_NAMESPACE )){
-            r.push({label:v.title,value:v.name});
-        };
-        return r;
-    }),
-    [{label:__("Select Block"),value: ""}]
-);
+export const getBlocksTypesList = (blockTypes) => {
+	console.log ('getBlocksTypesList: ', blockTypes);
+	return reduce(
+		blockTypes,
+		((r,v)=>{
+			if(0===v.name.indexOf( API_NAMESPACE )){
+				r.push({label:v.title,value:v.name});
+			};
+			return r;
+		}),
+		[{label:__("Select Block"),value: ""}]
+	);
+}
 
 /**
  * 
  * @param {*} postTypes 
  */
-export const getPostsTypesList = (postTypes) => reduce(
-    postTypes,
-    ((results,value) => {
-        results.push({
-            label: value.name,
-            value: value.slug
-        });
-        return results;
-    }),
-    []			
-);
+export const getPostsTypesList = (postTypes) => {
+
+	console.log ('getPostsTypesList: ', postTypes);
+	return reduce(
+		postTypes,
+		((results,value) => {
+			results.push({
+				label: value.name,
+				value: value.slug
+			});
+			return results;
+		}),
+		[]			
+	);
+}
 
 /**
  * 
  * @param {*} taxonomies 
  */
-export const getTaxonomiesList = (taxonomies) => reduce (
-    taxonomies,
-    ((r,v)=>{
-        r.push({label:v.name,value:v.slug});
-        return r;
-    }),
-    [{label:__("Use Taxonomy"),value: ""}]				
-)
+export const getTaxonomiesList = (taxonomies) => {
+	
+	console.log('getTaxonomiesList : ', taxonomies);
+	return (taxonomies && ! isEmpty(taxonomies))
+		? reduce (
+			taxonomies,
+			((r,v)=>{
+				r.push({label:v.name,value:v.slug});
+				return r;
+			}),
+			[{label:__("Use Taxonomy"),value: ""}]				
+		) 
+		: [];
+}
 
 /**
  * 
  * @param {*} posts 
  * @param {*} blockType 
  */
-export const getPostsBlocks = (posts,blockType) => reduce (
-	posts,
-	((r,v)=>{
-		if (v.blocks && v.blocks.length) {
-			const blocks = reduce (
-				v.blocks,
-				((rr,vv)=>{
-					if (vv.blockName == blockType) {
-						rr.push({
-							Block: createBlock(vv.blockName,vv.attrs)
-						});
-					}
-					return rr;
-				}),
-				[]
-			);
-			if (blocks && blocks.length) {
-				r.push({
-					id: v.id,
-					link: v.link,
-					blocks: blocks
-				});
+export const getPostsBlocks = (posts,blockType) => {
+
+	console.log ('getPostsBlocks :',posts,blockType);
+
+	return reduce (
+		posts,
+		((r,v)=>{
+			if (v.blocks && v.blocks.length) {
+				const blocks = reduce (
+					v.blocks,
+					((rr,vv)=>{
+						if (vv.blockName == blockType) {
+							rr.push({
+								Block: createBlock(vv.blockName,vv.attrs)
+							});
+						}
+						return rr;
+					}),
+					[]
+				);
+				if (blocks && blocks.length) {
+					r.push({
+						id: v.id,
+						link: v.link,
+						blocks: blocks
+					});
+				}
 			}
-		}
-		return r;	
-	}),
-	[]
-);
+			return r;	
+		}),
+		[]
+	);
+}
 
 /**
  * Find block that match name and className

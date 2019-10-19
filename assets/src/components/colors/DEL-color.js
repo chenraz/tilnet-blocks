@@ -6,7 +6,6 @@
 
 const {withSelect} = wp.data;
 
-
 /**
  * Internals
  */
@@ -21,7 +20,9 @@ import {getColorClasses} from '../../utils/selectors';
  */
 const useColor = (colorContext,editorColors,props) => {
 
+	console.log ('useColor before get class');
 	const getClasses = (attributes) => getColorClasses(editorColors,colorContext,attributes);
+	console.log ('useColor after get class');
 
 	const colorClasses = useAttributeClass({
 		attrClassName: getClasses,
@@ -40,6 +41,8 @@ const useColorSelect = (colorContext,select,props) =>  {
 	const settings = select( 'core/block-editor' ).getSettings();
 	const editorColors = settings.colors;
 
+	console.log ('useColorSelect ',colorContext)
+
 	return useColor(colorContext,editorColors,props)
 
 }
@@ -52,14 +55,29 @@ const useColorSelect = (colorContext,select,props) =>  {
 const withColor = (colorContext,enableOnBlocks) => ( 
 	withSelect((select,props) => {
 		
-		if (! enableOnBlocks.includes( props.name ) ) { 
-			return props;
-		}
+		console.log ('withcolor withselect ', props,select);
+
+		let newProps;
 		const selectResults = useColorSelect(colorContext,select,props);
-		return {
-			...props,
-			className: selectResults
+
+		if (enableOnBlocks.includes( props.name ) ) { 
+			newProps = {
+				...props,
+				className: selectResults
+			};
 		}
+		else {
+			newProps = props;
+		}	
+		// if (! enableOnBlocks.includes( props.name ) ) { 
+		// 	return props;
+		// }		
+		// const selectResults = useColorSelect(colorContext,select,props);
+		// return {
+		// 	...props,
+		// 	className: selectResults
+		// }
+		return newProps;
 	})
 );
 

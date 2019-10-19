@@ -27,9 +27,29 @@ if (!class_exists('\Tilnet\Rest_Api\Rest_Api')) :
         public static function add_actions () 
         {
             add_action('rest_api_init', [__CLASS__,'add_post_fields'],1000);
-            add_action( 'rest_api_init', [__CLASS__,'blocks_rest_route'] );               
+            add_action( 'rest_api_init', [__CLASS__,'blocks_rest_route'] );      
+            
+//            add_action ('tilnet_block_activation',[__CLASS__,'schedule_cron']);
+//            
+//            add_action ('api_static_json_file',[__CLASS__,'update_static_json_file']);
         }
         
+//        public static function schedule_cron ()
+//        {
+//            if (! wp_next_scheduled ( 'api_static_json_file' )) {
+//                $date =  new \DateTime();
+//
+//                wp_schedule_event(strtotime($date->format("Y-m-d 03:00:s")), 'daily', 'api_static_json_file');
+//            }            
+//        }
+        
+//        public static function update_static_json_file ()
+//        {
+//            $url = site_url('wp-json');
+//            $curl = curl_init();
+//            $fp = fopen("cache/temp_file.txt", "w");
+//        }
+
         public static function add_post_fields ()
         {
             if ( ! function_exists( 'use_block_editor_for_post_type' ) ) {
