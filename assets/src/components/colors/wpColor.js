@@ -30,15 +30,16 @@ const useWpColors = (colorsContext,props) => {
 
 		if (className != newClassName) {
 
+			const fullClassName = classNames(
+				attrClassName,
+				{[className]: false},
+				{[newClassName]: true}
+			)
 
-		console.log ('useWpColors reducer  change className to: ', newClassName);
+			console.log (`useWpColors reducer  change className to: ${newClassName} full classname:${fullClassName}`);
 
 			setAttributes({
-				className: classNames(
-					attrClassName,
-					{[className]: false},
-					{[newClassName]: true}
-				)
+				className: fullClassName
 			});
 		}
 
@@ -56,41 +57,45 @@ const useWpColors = (colorsContext,props) => {
 
 	const [classes, setClasses] = useReducer(reducer,{});
 
-	useEffect (()=>{
+	// useEffect (()=>{
 
-		console.log ('useWpColors effect:',props,colorsContext);
-
+		console.log (`useWpColors effect attrClassName: ${attrClassName} :`,props,colorsContext);
+		
 		for (const colorContext of colorsContext) {
 
-			const currentClasss = isUndefined(props[colorContext])
-				?	''
-				:	defaultTo(props[colorContext].class,'');
+			if (isUndefined(props[colorContext])) {
+				continue;
+			}
+			// const currentClasss = isUndefined(props[colorContext])
+			// 	?	''
+			// 	:	defaultTo(props[colorContext].class,'');
+			const currentClasss = defaultTo(props[colorContext].class,'');
 
 			const stateClasss = defaultTo(classes[colorContext],'');
 
-			console.log ('useWpColors effect classes:',currentClasss,stateClasss);
+			console.log (`useWpColors currentClasss: ${currentClasss} stateClasss: ${stateClasss}`);
 
 
 			if (currentClasss != stateClasss) {
-				
+
 				console.log (`useWpColors effect change from ${stateClasss} to ${currentClasss}:`);
-				console.log ('useWpColors effect change classes:',currentClasss,stateClasss);
 				
 				setClasses({
 					attr: colorContext,
 					newClassName: currentClasss
 				});
-			}			
+			}	
+
 
 			console.log ('useWpColor useEffect ', stateClasss);
 
 		}
-	});
+	// });
 
 
 }
 
-export default (...colorsContext) => createHigherOrderComponent(
+const withWpColors = (...colorsContext) => createHigherOrderComponent(
 	(WrappedComponent) => (
 		wpWithColors(...colorsContext) (props => {
 			console.log ('withWpColors props: ',props);
@@ -100,3 +105,5 @@ export default (...colorsContext) => createHigherOrderComponent(
 	),
 	'withWpColors'
 )
+
+export default withWpColors;

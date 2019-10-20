@@ -13,6 +13,7 @@ import './blocks/blocks-slider';
 import './blocks/posts-slider';
 import './blocks/portfolio';
 import './blocks/review';
+import './blocks/card';
 
 /**
  * Componenet

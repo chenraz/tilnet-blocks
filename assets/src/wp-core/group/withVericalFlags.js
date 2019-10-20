@@ -12,7 +12,7 @@ const enableOnBlocks = [
 ];
 
 import {getBlockByClassName} from '../../utils/selectors';
-import useAttributeAndClass from '../../components/useAttribute/useAttribute';
+import useAttributeAndClass from '../../components/useAttribute';
 
 export const addAttribute = (settings) => {
 
@@ -30,34 +30,41 @@ export const addAttribute = (settings) => {
 
 const useVertical = (props) => {
 
+    console.log ('useVertical', props);
 
-    const [className,hasVerticalHeader,sethasVerticalHeader] = useAttributeAndClass (
+    const [className,hasVerticalHeader,setHasVerticalHeader] = useAttributeAndClass (
         {
             attrName: 'hasVerticalHeader',
-            attrClassName: 'has-vetical-header',
-            attrDefault: false                
+            attrClassName: 'has-vertical-header',
+            attrDefault: null                
         },
         props
-    );  
-      
+    ); 
+     
     const newHasVerticalHeader = useSelect ((select)=>{
+
 
         const innerBlocks = select('core/block-editor').getBlocks(props.clientId);
 
         const verticalBlocks = getBlockByClassName(innerBlocks,'core/heading','is-style-vetical');
         
-        return (verticalBlocks && verticalBlocks.length);
+        console.log (`use vertical useSelect`, props);
 
- 
+        return (verticalBlocks && verticalBlocks.length > 0);
+
+
     })
 
+    console.log (`use vertical check: newHasVerticalHeader:${newHasVerticalHeader} hasVerticalHeader: ${hasVerticalHeader}`);
+
     if (
+        
         newHasVerticalHeader != hasVerticalHeader
     ) {
-        sethasVerticalHeader(newHasVerticalHeader);
+        setHasVerticalHeader(newHasVerticalHeader);
     }
 
-    return {className:className}     
+    // return {className:className}     
     
 }
 

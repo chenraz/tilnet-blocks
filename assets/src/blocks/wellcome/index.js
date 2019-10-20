@@ -10,7 +10,7 @@ import { Fragment } from 'react';
 import classNames from 'classnames/dedupe';
 import {defaultTo} from 'lodash';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __ } = wp.i18n; 
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { compose } = wp.compose;
 const {

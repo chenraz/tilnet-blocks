@@ -110,7 +110,13 @@ if (!class_exists('\Tilnet\Block')) :
                     'slug'  => 'radial_blue',
                     'color' => '#02456d',                    
                     'class' =>  'radial-blue',
-                ),                
+                ),    
+                array (
+                    'name'  => __( 'Radial Gray', 'tilnet-blocks' ),
+                    'slug'  => 'radial_gray',
+                    'color' => '#f8fafc',                    
+                    'class' =>  'radial-gray',
+                ),                   
             ) );
         }           
         
@@ -149,6 +155,14 @@ if (!class_exists('\Tilnet\Block')) :
             // review block
             register_block_type(
                 'til/review', array(
+                    'editor_script' => 'tilnet/editor-scripts',
+                    'editor_style'  => 'tilnet/stylesheets',
+                )
+            );      
+            
+            // review block
+            register_block_type(
+                'til/card', array(
                     'editor_script' => 'tilnet/editor-scripts',
                     'editor_style'  => 'tilnet/stylesheets',
                 )

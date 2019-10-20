@@ -6,14 +6,18 @@
   * Extrnals
   */
 const { addFilter } = wp.hooks;
-// const { withColors } = wp.blockEditor;
-const {compose} = wp.compose;
+const {
+	PanelColorSettings,
+	InspectorControls,
+} = wp.blockEditor;
+
+const { __ } = wp.i18n; 
+
 /**
  * Internals
  */
 import FullPagePanel from './withFullPage';
 import useVertical from './withVericalFlags';
-// import {withColor} from '../../components/colors';
 import {withWpColors} from '../../components/colors';
 
 import {Group} from '../../local-react-components/blocks/group';
@@ -24,16 +28,32 @@ const enableOnBlocks = [
 ];
 
 const WpGroup = ( 
-    // withColor('backgroundColor',enableOnBlocks) (
-    // withColors('backgroundColor') (
-        withWpColors('backgroundColor') (
-            (props) => {
+    withWpColors('backgroundColor','textColor') (
+        (props) => {
+            
+            const {textColor,setTextColor} = props;
+
             useVertical(props);
             console.log ('WpGroup : ', props);
             return (
                 [
                     <ErrorBoundary key={'panel-error'}>
+                        
                         <FullPagePanel key='full-page-panel' {...props} />
+                        
+                        <InspectorControls>
+                            <PanelColorSettings
+                                title={ __( 'Color Settings' ) }
+                                colorSettings={ [
+                                    {
+                                        value: textColor.color,
+                                        onChange: setTextColor,
+                                        label: __( 'Text Color' ),
+                                    },
+                                ] }
+                            />   
+
+                        </InspectorControls>
                     </ErrorBoundary>,
 
                     <ErrorBoundary key={'group-error'}>
@@ -50,18 +70,11 @@ const WpGroup = (
     )
 );
 
-// const GroupWithColor = compose (
-
-// );
 
 const customGroup = 
     ( BlockEdit ) => {
 
-        // return withColor('backgroundColor',enableOnBlocks) (
-            // props => {
             return props => {
-
-                // useVertical(props);
 
                 if ( ! enableOnBlocks.includes( props.name ) ) {
 
@@ -72,29 +85,13 @@ const customGroup =
                     );
                 } 
 
-                // useVertical(props);
-                console.log ('yes customGroup: ',props);
-
                 return (
-                    // <ErrorBoundary>
                         <WpGroup {...props}>
                             <BlockEdit {...props} />    
                         </WpGroup>
-                    // </ErrorBoundary>
                 );
-                
-                // return (
-                //     [
-                //         <FullPagePanel key='full-page-panel' {...props} />,
-                //         <Group key='til-group' {...props}>
-                //             <BlockEdit {...props} />
-                //         </Group>
-                        
-                //     ]
-                // );
 
             }
-        // )
     };
 
 addFilter( 'editor.BlockEdit', 'til/group/edit', customGroup );

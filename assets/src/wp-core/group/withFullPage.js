@@ -7,7 +7,7 @@
   */
 import {assign,defaultTo} from 'lodash';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __ } = wp.i18n; 
 const { addFilter } = wp.hooks;
 const {InspectorControls} = wp.blockEditor;
 const {ToggleControl,PanelBody} = wp.components;
@@ -15,7 +15,7 @@ const {ToggleControl,PanelBody} = wp.components;
 /**
  * Internals
  */
-import useAttributeAndClass from '../../components/useAttribute/useAttribute';
+import useAttributeAndClass from '../../components/useAttribute';
 import { isUndefined } from 'util';
 
 const enableOnBlocks = [

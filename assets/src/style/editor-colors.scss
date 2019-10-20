@@ -11,3 +11,9 @@ span.component-color-indicator[aria-label="(current background color: Radial Blu
     @extend %radial-blue;
     color: transparent !important;   
 }
+
+button.components-color-palette__item[aria-label="Color: Radial Gray"]:not(.is-active),
+span.component-color-indicator[aria-label="(current background color: Radial Gray)"]{
+    @extend %radial-gray;
+    color: transparent !important;   
+}

@@ -7,32 +7,23 @@
  * Externals
  */
 import { Fragment } from 'react';
-import { isEmpty } from 'lodash';
 
 const { __ } = wp.i18n;
 const {
     PlainText,
-    InspectorControls,
 } = wp.blockEditor;
-const {
-    SelectControl,
-    BaseControl,
-    Icon,
-} = wp.components;
+
 
 
 import ImageUpload from '../../components/imageUpload';
 /**
  * Internals 
 */
-// import './editor-style.scss';
 import '../../local-react-components/blocks/review/style.scss'
-// import {Review} from '../../local-react-components/blocks/review';
 import StarRating from '../../components/starRating'
-// import StarRating from '../../local-react-components/components/starRating';
 import { isUndefined } from 'util';
 
-const reviewEdit = ((props)=>{
+const ReviewEdit = ((props)=>{
 
     const { 
         attributes, 
@@ -65,11 +56,9 @@ const reviewEdit = ((props)=>{
                             image={profileImage}
                             placeholder="Profile image here"
                             onSetImage={ (img) => {
-                                // console.log ('set img',img);
                                 const url = isUndefined(img.sizes.thumbnail)
                                     ?   img.url
                                     :   img.sizes.thumbnail.url;
-                                // setAttributes({profileImage: img.sizes.thumbnail.url});
                                 setAttributes({profileImage: url});
                              }}
                         />
@@ -106,5 +95,4 @@ const reviewEdit = ((props)=>{
     );    
 });
 
-// export default withInstanceId( reviewEdit );
-export default reviewEdit;
+export default ReviewEdit;
