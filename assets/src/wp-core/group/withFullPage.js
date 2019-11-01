@@ -47,13 +47,13 @@ export const useFullPage = (props) => {
     //     ?   false
     //     :   props.attributes.isFullPage;
 
-        const defaultIsFullPage = defaultTo (props.attributes.isFullPage, false);
+    const defaultIsFullPage = defaultTo (props.attributes.isFullPage, false);
 
-        const [className,isFullPage,updateIsFullPage] = useAttributeAndClass(
-            {
-            attrName: 'isFullPage',
-            attrClassName: 'full-page',
-            attrDefault: defaultIsFullPage
+    const [className,isFullPage,updateIsFullPage] = useAttributeAndClass(
+        {
+        attrName: 'isFullPage',
+        attrClassName: 'full-page',
+        attrDefault: defaultIsFullPage
         },
         props
     );  

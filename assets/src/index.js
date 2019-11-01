@@ -14,7 +14,8 @@ import './blocks/posts-slider';
 import './blocks/portfolio';
 import './blocks/review';
 import './blocks/card';
-
+import './blocks/blocks-navigation';
+import './blocks/navigation-block';
 /**
  * Componenet
  */

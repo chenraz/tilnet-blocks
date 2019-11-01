@@ -24,6 +24,8 @@ const { compose } = wp.compose;
 
 
 import Block from './block';
+import Post from '../../components/Post';
+
 import {Slider} from '../../local-react-components/blocks/posts-slider';
 import './style.scss';
 
@@ -76,7 +78,7 @@ const PostSliderEdit = (
 			<Fragment > 
 				<InspectorControls key='inspectors' {...props} />
 				<BlockControls key='blockControls' />
-				<Slider key='slider' {...props} {...attributes} exerptEl={exerptEl} Block={Block} />
+				<Slider key='slider' {...props} {...attributes} exerptEl={exerptEl} Block={Block} Post={Post} />
 
 			</Fragment> 
 		);		

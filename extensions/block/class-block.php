@@ -31,6 +31,9 @@ if (!class_exists('\Tilnet\Block')) :
             add_action( 'init', [__CLASS__,'register_assets'],5 );
             add_action ('enqueue_block_editor_assets',[__CLASS__,'enqueue_styles']);
             
+            // media
+//            add_filter('upload_mimes', [__CLASS__,'mime_types']);
+            
             // Blocks
             add_action ('after_setup_theme',[__CLASS__,'set_color_palette'],1000);
             
@@ -40,6 +43,8 @@ if (!class_exists('\Tilnet\Block')) :
             add_filter( 'block_categories', [__CLASS__,'block_categories'] );
             
             add_filter( 'block_parser_class', [__CLASS__,'block_parser_class']);
+            
+            
         }
         
         /**
@@ -127,7 +132,13 @@ if (!class_exists('\Tilnet\Block')) :
         {
             wp_enqueue_style('tilnet-blocks-editor-general');
 
-        }        
+        }   
+        
+//        public static function mime_types($mimes)
+//        {
+//            $mimes['svg'] = 'image/svg+xml';
+//            return $mimes;            
+//        }
 
         /**
          * 

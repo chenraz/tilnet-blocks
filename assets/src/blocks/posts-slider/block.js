@@ -1,4 +1,4 @@
-const {getSaveElement} = wp.blocks;
+import Block from '../../components/Block';
 
 export default ({post}) => {
 	
@@ -6,14 +6,8 @@ export default ({post}) => {
 		? post.blocks[0].Block
 		: false;	
 
-	const block = blockObj
-		?	getSaveElement(blockObj.name, blockObj.attributes)
-		: 	false
-
-	console.log ("got the Block",block);
-
-	return block;
-	
-	// return blockObj && getSaveElement(blockObj.name, blockObj.attributes);
+	return Block(blockObj);
 
 }
+
+

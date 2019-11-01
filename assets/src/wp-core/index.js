@@ -4,5 +4,7 @@
 
 import './group';
 import './heading';
+import './columns';
+import './column';
 
 

@@ -1,10 +1,17 @@
 /**
  * External dependencies
  */
+
 import classnames from 'classnames';
 const { InnerBlocks, getColorClassName } = wp.blockEditor;
 
-export default function save( { attributes } ) {
+export default function save( { attributes,innerBlocks } ) {
+// export default function save( {innerBlocks} ) {
+	
+	// const {innerBlocks} = attributes;
+
+	console.log ('save blocksslider:',innerBlocks);
+	
 	const { backgroundColor, customBackgroundColor } = attributes;
 
 	const backgroundClass = getColorClassName( 'background-color', backgroundColor );

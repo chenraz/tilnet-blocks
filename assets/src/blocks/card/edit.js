@@ -6,8 +6,7 @@
 /**
  * Externals
  */
-// import { Fragment } from 'react';
-// import { isEmpty } from 'lodash';
+
 import classNames from 'classnames/dedupe'
 
 const { __ } = wp.i18n;
@@ -26,7 +25,6 @@ const {
  * Internals 
 */
 import '../../local-react-components/blocks/review/style.scss'
-// import ImageUpload from '../../components/imageUpload';
 import UploadImage from '../../components/UploadImage';
 import useAttributeAndClass, {useAttributeValueClass} from '../../components/useAttribute';
 
@@ -35,7 +33,6 @@ const CardEdit = ((props)=>{
     const { 
         attributes, 
         setAttributes,
-        // className
     } = props;
     
     const {
@@ -45,7 +42,6 @@ const CardEdit = ((props)=>{
     } = attributes;
 
     const {className} = attributes;
-
 
     useAttributeValueClass({
         attrName: 'align',
@@ -64,6 +60,43 @@ const CardEdit = ((props)=>{
         attrDefault: false,
     },props);    
 
+    const [,imageAbove,setImageAbove] = useAttributeAndClass ({
+        attrName: 'imageAbove',
+        attrClassName: 'image-above',
+        attrDefault: false,
+    },props); 
+    
+    const cardText = (
+        <div className='card-text'>
+            {withTitle &&
+                <RichText
+                    tagName="h3"
+                    className="card-title"
+                    placeholder="Add title"
+                    onChange={ (newTitle) => setAttributes({title:newTitle}) }
+                    value={ title }
+                />                   
+            }
+            <RichText
+                tagName="p"
+                className="card-text"
+                placeholder="Add text"
+                onChange={ (newText) => setAttributes({text:newText}) }
+                value={ text }
+            />  
+        </div>
+    );
+
+    const cardImage = (
+        <div className='card-image'>
+            <UploadImage
+                name='image'
+                attributes={attributes}
+                setAttributes={setAttributes}
+            />
+        </div>
+    );
+    
     return ([
         <InspectorControls key='inspector'>
             <PanelBody title={ __( 'Layout' ) }>
@@ -74,6 +107,14 @@ const CardEdit = ((props)=>{
                     onChange={ setTextOnImage }
                 />	 
 
+                { ! textOnImage &&
+                    <ToggleControl
+                        label={ __( 'Image Above' ) }
+                        checked={ imageAbove }
+                        onChange={ setImageAbove }
+                    />	                
+                }
+
                 <ToggleControl
                     label={ __( 'With title' ) }
                     checked={ withTitle }
@@ -83,32 +124,13 @@ const CardEdit = ((props)=>{
             </PanelBody>	            
         </InspectorControls>,
         <div key='card' className={classNames('wp-block-til-card',className)}>
-            <div className='card-text'>
-                {withTitle &&
-                    <RichText
-                        tagName="h3"
-                        className="card-title"
-                        placeholder="Add title"
-                        onChange={ (newTitle) => setAttributes({title:newTitle}) }
-                        value={ title }
-                    />                   
-                }
-                <RichText
-                    tagName="p"
-                    className="card-text"
-                    placeholder="Add text"
-                    onChange={ (newText) => setAttributes({text:newText}) }
-                    value={ text }
-                />                  
-            </div>
-            <div className='card-image'>
-                <UploadImage
-                    name='image'
-                    // image={image}
-                    attributes={attributes}
-                    setAttributes={setAttributes}
-                />
-            </div>
+            {imageAbove &&
+                cardImage
+            }
+            {cardText}
+            {! imageAbove &&
+                cardImage
+            }
 
         </div>
     ]);    

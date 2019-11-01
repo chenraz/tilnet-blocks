@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
 
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -10,53 +9,23 @@ const {
 	InnerBlocks,
 } = wp.editor
 
-const {
-	PanelColorSettings,
-	InspectorControls,
-	withColors,
-} = wp.blockEditor;
-
 function SliderEdit ({
 	className,
-	setBackgroundColor,
-	backgroundColor,
 	hasInnerBlocks,
 }) {
-	const styles = {
-		backgroundColor: backgroundColor.color,
-	};
-
-	const classes = classnames( className, backgroundColor.class, {
-		'has-background': !! backgroundColor.color,
-	} );
 
 	return (
-        <div>
-			<InspectorControls>
-				<PanelColorSettings
-					title={ __( 'Color Settings' ) }
-					colorSettings={ [
-						{
-							value: backgroundColor.color,
-							onChange: setBackgroundColor,
-							label: __( 'Background Color' ),
-						},
-					] }
+		<div className={ className }>
+			<div className="wp-block-group__inner-container">
+				<InnerBlocks
+					renderAppender={ ! hasInnerBlocks && InnerBlocks.ButtonBlockAppender }
 				/>
-			</InspectorControls>
-			<div className={ classes } style={ styles }>
-				<div className="wp-block-group__inner-container">
-					<InnerBlocks
-						renderAppender={ ! hasInnerBlocks && InnerBlocks.ButtonBlockAppender }
-					/>
-				</div>
 			</div>
-        </div>
-	);    
+		</div>		
+	)
 }
 
 export default compose( [
-	withColors( 'backgroundColor' ),
 	withSelect( ( select, { clientId } ) => {
 		const {
 			getBlock,

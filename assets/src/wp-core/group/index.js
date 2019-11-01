@@ -78,8 +78,6 @@ const customGroup =
 
                 if ( ! enableOnBlocks.includes( props.name ) ) {
 
-                    console.log ('not customGroup: ',props);
-
                     return (
                         <BlockEdit key="edit" { ...props } />
                     );
