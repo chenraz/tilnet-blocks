@@ -93,7 +93,9 @@ if (!class_exists('\Tilnet\Portfolio\Portfolio')) :
                 'show_ui'           => true,
                 'show_admin_column' => false,
                 'query_var'         => true,
-                'rewrite'           => true,
+                'rewrite'           => [
+                    'slug'              =>  'סוגי-אתרים'
+                ],
                 'capabilities'      => array(
                     'manage_terms'  => 'edit_posts',
                     'edit_terms'    => 'edit_posts',

@@ -14,16 +14,37 @@ if (!class_exists('\Tilnet\Block')) :
         
         use \Tilnet\One_Instance;
         
+        /**
+         *
+         * @var type 
+         */
         protected static  $instance = null;    
+        
+        /**
+         *
+         * @var type 
+         */
+        public static $extensions = [];        
         
         /**
          * 
          */
         public function __construct ()
         {
+            self::init_extensions();
             self::add_actions();
         }
         
+        /**
+         * 
+         */
+        public static function init_extensions() {
+            self::$extensions = [
+                'Reusable_Bloks'    => Reusable_Block::instance(),
+            ];
+        }
+
+
         public static function add_actions () 
         {
             
@@ -38,7 +59,7 @@ if (!class_exists('\Tilnet\Block')) :
             add_action ('after_setup_theme',[__CLASS__,'set_color_palette'],1000);
             
             add_action( 'init', [__CLASS__,'register_blocks'] );            
-            add_action ('init',[__CLASS__,'register_blocks_style']);
+//            add_action ('init',[__CLASS__,'register_blocks_style']);
             
             add_filter( 'block_categories', [__CLASS__,'block_categories'] );
             
@@ -52,8 +73,6 @@ if (!class_exists('\Tilnet\Block')) :
          */
         public static function register_assets ()
         {
-            
-            error_log ('url: ' . \Tilnet\TIL()::$url . '/assets/dist/editor-style.css');
             
             // general editor style
             wp_register_style (
@@ -134,12 +153,6 @@ if (!class_exists('\Tilnet\Block')) :
 
         }   
         
-//        public static function mime_types($mimes)
-//        {
-//            $mimes['svg'] = 'image/svg+xml';
-//            return $mimes;            
-//        }
-
         /**
          * 
          */
@@ -148,7 +161,6 @@ if (!class_exists('\Tilnet\Block')) :
             // wellcome block
             register_block_type(
                 'til/wellcome', array(
-                    // 'style'         => 'tilnet/stylesheets',
                     'editor_script' => 'tilnet/editor-scripts',
                     'editor_style'  => 'tilnet/stylesheets',
                 )
@@ -157,11 +169,18 @@ if (!class_exists('\Tilnet\Block')) :
             // slider block
             register_block_type(
                 'til/blocks-slider', array(
-                    // 'style'         => 'tilnet/stylesheets',
                     'editor_script' => 'tilnet/editor-scripts',
                     'editor_style'  => 'tilnet/stylesheets',
                 )
-            );        
+            );  
+            
+            // Post carousel
+            register_block_type(
+                'til/posts-carousel', array(
+                    'editor_script' => 'tilnet/editor-scripts',
+                    'editor_style'  => 'tilnet/stylesheets',
+                )
+            );              
             
             // review block
             register_block_type(
@@ -179,31 +198,6 @@ if (!class_exists('\Tilnet\Block')) :
                 )
             );               
         }   
-        
-        /**
-         * 
-         */
-        public static function register_blocks_style ()
-        {
-            
-            register_block_style(
-                'core/heading',
-                array(
-                    'name'         => 'horizontal',
-                    'label'        => __( 'Horizontal' ),
-                    'isDefault'    =>  true,
-                )
-            );      
-            
-            register_block_style(
-                'core/heading',
-                array(
-                    'name'         => 'vetical',
-                    'label'        => __( 'Vetical' ),
-                    'inline_style' => '.wp-block-heading .is-style-vetical { transform: rotate(-90deg);position: absolute; }',
-                )
-            );              
-        }        
         
         /**
          * 

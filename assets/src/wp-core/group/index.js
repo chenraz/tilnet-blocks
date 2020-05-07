@@ -17,10 +17,13 @@ const { __ } = wp.i18n;
  * Internals
  */
 import FullPagePanel from './withFullPage';
+import GroupNamePanel from './withGropName';
 import useVertical from './withVericalFlags';
 import {withWpColors} from '../../components/colors';
 
-import {Group} from '../../local-react-components/blocks/group';
+// import {Group} from '../../local-react-components/blocks/group';
+import Group from '../../local-react-components/blocks/group/group';
+
 import ErrorBoundary from '../../local-react-components/components/Error';
 
 const enableOnBlocks = [
@@ -29,44 +32,46 @@ const enableOnBlocks = [
 
 const WpGroup = ( 
     withWpColors('backgroundColor','textColor') (
-        (props) => {
+            (props) => {
             
-            const {textColor,setTextColor} = props;
+                const {textColor,setTextColor} = props;
 
-            useVertical(props);
-            console.log ('WpGroup : ', props);
-            return (
-                [
-                    <ErrorBoundary key={'panel-error'}>
+                useVertical(props);
+                console.log ('WpGroup : ', props);
+                return (
+                    [
+                        <ErrorBoundary key={'panel-error'}>
+                            
+                            <FullPagePanel key='full-page-panel' {...props} />
+
+                            <GroupNamePanel key='group-name-panel' {...props} />
+                            
+                            <InspectorControls>
+                                <PanelColorSettings
+                                    title={ __( 'Color Settings' ) }
+                                    colorSettings={ [
+                                        {
+                                            value: textColor.color,
+                                            onChange: setTextColor,
+                                            label: __( 'Text Color' ),
+                                        },
+                                    ] }
+                                />   
+
+                            </InspectorControls>
+                        </ErrorBoundary>,
+
+                        <ErrorBoundary key={'group-error'}>
+                            <Group key='til-group' {...props}>
+                                {/* <BlockEdit {...props} /> */}
+                                {props.children}
+                            </Group>
+                        </ErrorBoundary>
+
                         
-                        <FullPagePanel key='full-page-panel' {...props} />
-                        
-                        <InspectorControls>
-                            <PanelColorSettings
-                                title={ __( 'Color Settings' ) }
-                                colorSettings={ [
-                                    {
-                                        value: textColor.color,
-                                        onChange: setTextColor,
-                                        label: __( 'Text Color' ),
-                                    },
-                                ] }
-                            />   
-
-                        </InspectorControls>
-                    </ErrorBoundary>,
-
-                    <ErrorBoundary key={'group-error'}>
-                        <Group key='til-group' {...props}>
-                            {/* <BlockEdit {...props} /> */}
-                            {props.children}
-                        </Group>
-                    </ErrorBoundary>
-
-                    
-                ]
-            );
-        }
+                    ]
+                );
+            }
     )
 );
 
@@ -91,5 +96,6 @@ const customGroup =
 
             }
     };
+
 
 addFilter( 'editor.BlockEdit', 'til/group/edit', customGroup );

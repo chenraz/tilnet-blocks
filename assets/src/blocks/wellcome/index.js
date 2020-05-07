@@ -67,7 +67,10 @@ registerBlockType( 'til/wellcome', {
 		},
 		tagline: {
 			type: 'string',
-		},		
+		},	
+		bottomText: {
+			type: 'string',
+		},			
 		image: {
 			type: 'string',
 		},	
@@ -96,7 +99,7 @@ registerBlockType( 'til/wellcome', {
 		withWpColors('backgroundColor','textColor')
 	])(( props ) => {
 		const { 
-			attributes: { text,tagline,image,logo,className }, 
+			attributes: { text,tagline,bottomText,image,logo,className }, 
 			setAttributes, 
 			backgroundColor, setBackgroundColor,
 			textColor, setTextColor,
@@ -109,6 +112,10 @@ registerBlockType( 'til/wellcome', {
 		const onChangeTagline = ( newTagline ) => {
 			setAttributes( { tagline: newTagline } );
 		};
+
+		const onChangeBottomText = ( newBottomText ) => {
+			setAttributes( { bottomText: newBottomText } );
+		};		
 
 		const onSetImage = ( newImage ) => {
 			setAttributes( { image: newImage.url } );
@@ -157,7 +164,14 @@ registerBlockType( 'til/wellcome', {
 							placeholder="add tagline"
 							onChange={ onChangeTagline }
 							value={ tagline }
-						/>						
+						/>	
+						<RichText
+							tagName="div"
+							className="bottomText"
+							placeholder="add bottom text"
+							onChange={ onChangeBottomText }
+							value={ bottomText }
+						/>												
 					</div>
 				</div>
 				<div className='image-wrap'>

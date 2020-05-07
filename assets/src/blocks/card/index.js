@@ -16,14 +16,16 @@ import PictureInPicture from './PictureInPicture';
 // import Icon from './reviewIcon';
 
 import edit from './edit';
-import attributes from '../../local-react-components/blocks/card/attributes';
+// import attributes from '../../local-react-components/blocks/media-card/attributes';
 import save from './save';
+
+import './editor-style.scss';
 
 registerBlockType( 'til/card', {
 	title: __( 'Card' ), 
 	icon: <PictureInPicture />,
 	category: 'til-blocks', 
-	description: __( 'Text with image' ),
+	description: __( 'Title, text and image' ),
 	supports: {
 		align: ['left', 'center', 'right'],
 		anchor: true,
@@ -32,9 +34,23 @@ registerBlockType( 'til/card', {
 	keywords: [
 		__( 'tilnet-blocks — card' ),
 		__( 'card' ),
+		__( 'media' ),
+		__( 'media card' ),
 	],
 
-	attributes,
+	// attributes,
+
+	styles: [
+		{
+			name: 'default',
+			label: __("Default"),
+			isDefault: true,
+		},
+		{
+			name: 'compact',
+			label: __("Compact"),
+		},		
+	],
 
 	edit,
 

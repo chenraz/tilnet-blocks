@@ -4,10 +4,10 @@ const { createHigherOrderComponent } = wp.compose;
 const { useCallback } = wp.element;
 
 
-import {withMouseNavigation} from '../../local-react-components/components/mouseNavigation'
+import {WithMouseNavigation} from '../../local-react-components/components/mouseNavigation'
 
-const MouseNavigator = ({setHoverX,WrappedComponent,...props}) => { 
-    return withMouseNavigation({setHoverX})(WrappedComponent)(props);
+const MouseNavigator = ({hoverX,setHoverX,WrappedComponent,...props}) => { 
+    return WithMouseNavigation({hoverX,setHoverX})(WrappedComponent)(props);
 }
 
 export default createHigherOrderComponent(
@@ -19,7 +19,7 @@ export default createHigherOrderComponent(
             return <MouseNavigator {...props} WrappedComponent={WrappedComponent} setHoverX={setHoverX} />
         }
     ),
-    "withMouseNavigation"
+    "WithMouseNavigation"
 );
 
 

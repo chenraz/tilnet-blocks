@@ -76,11 +76,11 @@ module.exports = [
                   }                
             ]
         },
-        stats: {
-            colors: true,
-            loggingTrace: false,
-            moduleTrace: false            
-        },
+        // stats: {
+        //     colors: true,
+        //     loggingTrace: false,
+        //     moduleTrace: false            
+        // },
         externals: externals,
 
     },
@@ -97,11 +97,11 @@ module.exports = [
                 loader: "babel-loader"
             }]
         },
-        stats: {
-            colors: true,
-            loggingTrace: false,
-            moduleTrace: false
-        },
+        // stats: {
+        //     colors: true,
+        //     loggingTrace: false,
+        //     moduleTrace: false
+        // },
         externals: {
             react: "React",
             'react-dom': 'ReactDOM'

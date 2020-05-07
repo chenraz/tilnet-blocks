@@ -7,7 +7,7 @@
 // ];
 
 import ColumnsContext,{ColumnsProps} from './ColumnsContext';
-import { maxWidth } from '@material-ui/system';
+// import { maxWidth } from '@material-ui/system';
 // import Inspector from './Inspector';
 
 const Columns = (props) => {

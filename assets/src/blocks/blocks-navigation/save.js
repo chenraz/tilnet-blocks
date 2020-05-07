@@ -2,14 +2,13 @@
  * External dependencies
  */
 
-import classnames from 'classnames';
-const { InnerBlocks, getColorClassName } = wp.blockEditor;
+const { InnerBlocks } = wp.blockEditor;
 
-export default function save( { attributes,innerBlocks } ) {
+export default function save(  ) {
 
 	return (
 		<div>
-			<div className="wp-block-group__inner-container">
+			<div className="wp-block-blocks-navigation__inner-container">
 				<InnerBlocks.Content />
 			</div>
 		</div>

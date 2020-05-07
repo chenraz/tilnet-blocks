@@ -107,7 +107,8 @@ const useCurrent = (clientId) => {
     }
     
     return {...{
-        // currentClientId,
+		currentClientId,
+		innerBlocks,
         currentIndex,
         toggleCurrent,
         count,

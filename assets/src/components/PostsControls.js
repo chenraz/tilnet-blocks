@@ -2,11 +2,13 @@
  * Inspector Controls
  */
 
+ 
+
 /**
  * External dependencies
  */
 
-import {isUndefined} from 'lodash';
+import {isUndefined,map,reduce} from 'lodash';
 
 const {
 	PanelBody,
@@ -14,6 +16,7 @@ const {
 	RadioControl,
 	ToggleControl,
 	SelectControl,
+	FormTokenField,
 } = wp.components;
 const { __ } = wp.i18n;
 const {
@@ -29,13 +32,15 @@ const {
  * Module Constants
  */
 
-const InspectorControls = (
+const PostsControl = (
 	({
 		attributes, 
 		setAttributes, 
 		postsTypesList,
 		blocksTypesList,
 		taxonomiesList,
+		metaObj,
+		postTypeEntity,
 		textColor,
 		setTextColor,
 		accentColor,
@@ -47,6 +52,8 @@ const InspectorControls = (
 			showTitle,
 			showExcerpt,
 			showThumbnail,
+			metaBefore,
+			metaAfter,
 			displayPostDate, 
 			order, 
 			orderBy, 
@@ -56,7 +63,26 @@ const InspectorControls = (
 			postsToShow,
 		} = attributes;
 
+		const getMetaObject = (fields) => {
 
+			const fieldsObj = reduce (fields,(result,field)=>{
+				
+				const fieldType = (isUndefined(metaObj[field]) || isUndefined(metaObj[field].description))
+					?	'string'
+					:	metaObj[field].description;
+
+				result[field]=fieldType;
+				return result;
+			
+
+			},{});
+
+
+			return fieldsObj;
+			
+		}
+		
+		const metaKeys = Object.keys(metaObj || {});
 
 		return (
 			<WpInspectorControls>
@@ -89,6 +115,17 @@ const InspectorControls = (
 
 				{ 'post' === contentLayout &&
 					<PanelBody title={ __( 'Content Settings' ) }>
+						<FormTokenField
+							title={__("Meta fields before")}
+							value={Object.keys(metaBefore || {})}
+							suggestions={metaKeys}
+							placeholder={__("Meta fields before")}
+							onChange={(fields)=>{
+								setAttributes({
+									metaBefore: getMetaObject(fields)
+								})
+							}}
+						/>	
 						<ToggleControl
 							label={ __( 'Display title' ) }
 							checked={ showTitle }
@@ -109,7 +146,19 @@ const InspectorControls = (
 							label={ __( 'Display post date' ) }
 							checked={ displayPostDate }
 							onChange={ ( value ) => setAttributes( { displayPostDate: value } ) }
-						/>						
+						/>	
+						<FormTokenField
+							title={__("Meta fields after")}
+							value={Object.keys(metaAfter || {})}
+							suggestions={metaKeys}
+							placeholder={__("Meta fields after")}
+							// onChange={(fields)=>setAttributes({metaAfter: fields})}
+							onChange={(fields)=>{
+								setAttributes({
+									metaAfter: getMetaObject(fields)
+								})
+							}}
+						/>					
 					</PanelBody>
 				}
 
@@ -160,4 +209,4 @@ const InspectorControls = (
 );
 
 
-export default InspectorControls;
+export default PostsControl;

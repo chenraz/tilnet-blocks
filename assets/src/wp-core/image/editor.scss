@@ -1,0 +1,16 @@
+.editor-block-styles__item.block-editor-block-styles__item[aria-label='Overlay'] {
+    position:relative;
+   
+}
+.editor-block-styles__item.block-editor-block-styles__item[aria-label='Overlay']:after {
+    content: "Overlay";
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: #000;
+    background: #fff;
+}

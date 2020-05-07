@@ -13,7 +13,9 @@ const {
     PlainText,
 } = wp.blockEditor;
 
-
+const {
+    useDispatch
+} = wp.data;
 
 import ImageUpload from '../../components/imageUpload';
 /**
@@ -39,6 +41,35 @@ const ReviewEdit = ((props)=>{
         rating,
     } = attributes;
 
+    const {editPost} = useDispatch('core/editor');
+
+    const setReview = (text) => {
+        setAttributes({review: text}); 
+        editPost({excerpt:text})
+    }
+
+    const setImg = (img) => {
+        const url = isUndefined(img.sizes.thumbnail)
+            ?   img.url
+            :   img.sizes.thumbnail.url;
+        setAttributes({profileImage: url});    
+
+        editPost({featured_media:img.id});
+        
+        console.log ('setting the img: ',img);
+    }
+
+    const setProjectName = (text) => {
+        setAttributes({projectName: text});
+        editPost({title: text});
+    }
+
+    const setRating = (rating) => {
+        setAttributes({rating:rating});
+        editPost({meta:{rating:rating}});
+
+    }
+
     return (
         <Fragment > 
             <div className={className}>
@@ -47,7 +78,8 @@ const ReviewEdit = ((props)=>{
                         className='review-content-input'
                         placeholder={__('Review Content')}
                         value={ review }
-                        onChange={ (text) => setAttributes({review: text}) }
+                        onChange={setReview }
+                        // onChange={ (text) => setAttributes({review: text}) }
                     />                      
                 </div>
                 <div className='review-details'>
@@ -55,12 +87,13 @@ const ReviewEdit = ((props)=>{
                         <ImageUpload
                             image={profileImage}
                             placeholder="Profile image here"
-                            onSetImage={ (img) => {
-                                const url = isUndefined(img.sizes.thumbnail)
-                                    ?   img.url
-                                    :   img.sizes.thumbnail.url;
-                                setAttributes({profileImage: url});
-                             }}
+                            onSetImage={setImg}
+                            // onSetImage={ (img) => {
+                            //     const url = isUndefined(img.sizes.thumbnail)
+                            //         ?   img.url
+                            //         :   img.sizes.thumbnail.url;
+                            //     setAttributes({profileImage: url});
+                            //  }}
                         />
 
                     </div>
@@ -78,16 +111,18 @@ const ReviewEdit = ((props)=>{
                             className='project-name'
                             placeholder={__('Project Name')}
                             value={ projectName }
-                            onChange={ (text) => setAttributes({projectName: text}) }
+                            onChange={ setProjectName }
+                            // onChange={ (text) => setAttributes({projectName: text}) }
                         />  
                     </div>
 
-                    <StarRating 
-                        rating={ rating }
-                        setRating={ (newRating) => setAttributes({rating:newRating}) }
-                        normalColor={'#114d73'}
-                        hoverColor={'#2571a1'}
-                    />
+                        <StarRating 
+                            rating={ rating }
+                            // setRating={ (newRating) => setAttributes({rating:newRating}) }
+                            setRating={setRating}
+                            normalColor={'#114d73'}
+                            hoverColor={'#2571a1'}
+                        />
                 </div>
 
             </div>

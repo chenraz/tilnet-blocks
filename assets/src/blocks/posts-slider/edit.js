@@ -24,16 +24,18 @@ const { compose } = wp.compose;
 
 
 import Block from './block';
-import Post from '../../components/Post';
+import Post from '../../local-react-components/blocks/posts-slider/Post'
+import Excerpt from '../../local-react-components/blocks/posts-slider/Excerpt'
 
-import {Slider} from '../../local-react-components/blocks/posts-slider';
+import Slider from '../../local-react-components/blocks/posts-slider/slider';
 import './style.scss';
 
-import {withPostOptions,withSliderPosts} from './resolvers'
+// import {withPostOptions,withPosts} from './resolvers'
+import {withPostOptions,withPosts} from '../../utils/resolvers'
 
-import Placeholder from './placeHolder';
-import InspectorControls from './inspectorControls';
-// import {withWpColor} from '../../components/colors';
+
+// import InspectorControls from './inspectorControls';
+import PostsControls from '../../components/PostsControls'
 import {withWpColors} from '../../components/colors';
 
 
@@ -49,14 +51,14 @@ const PostSliderEdit = (
 
 		const { 
 			attributes, 
-			sliderPosts,
+			posts: sliderPosts,
 		} = props;
 
 		const { 
 			postsToShow,
 		} = attributes;
 		
-		const exerptEl = useRef();
+		// const exerptEl = useRef();
 		
 		const hasPosts = Array.isArray( sliderPosts ) && sliderPosts.length;
 
@@ -64,21 +66,11 @@ const PostSliderEdit = (
 			sliderPosts.slice( 0, postsToShow ) :
 			sliderPosts;
 
-		// if ( ! hasPosts ) {
-		// 	return (
-		// 		<Fragment>
-		// 			<InspectorControls key='inspectors' {...props} />
-		// 			<Placeholder key='holder' sliderPosts={sliderPosts} />
-
-		// 		</Fragment>
-		// 	);
-		// }
-
 		return (
 			<Fragment > 
-				<InspectorControls key='inspectors' {...props} />
+				<PostsControls key='inspectors' {...props} />
 				<BlockControls key='blockControls' />
-				<Slider key='slider' {...props} {...attributes} exerptEl={exerptEl} Block={Block} Post={Post} />
+				<Slider key='slider' {...props} {...attributes} Block={Block} Post={Post} Excerpt={Excerpt}/>
 
 			</Fragment> 
 		);		
@@ -87,11 +79,7 @@ const PostSliderEdit = (
 
 const EditFunc = compose([
 	withPostOptions,
-	withSliderPosts,
-	// withColors('textColor'),
-	// withColors('accentColor'),	
-	// withWpColor('textColor'),
-	// withWpColor('accentColor'),
+	withPosts,
 	withWpColors('textColor','accentColor'),
 	withMouseNavigation,
 ])( PostSliderEdit );

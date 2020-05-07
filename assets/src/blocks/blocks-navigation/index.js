@@ -3,17 +3,17 @@
  *
  */
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __ } = wp.i18n; 
 const { 
 	registerBlockType,
-	setDefaultBlockName
- } = wp.blocks; // Import registerBlockType() from wp.blocks
+	// setDefaultBlockName
+ } = wp.blocks; 
 
 /**
  * Internal dependencies
  */
 import Icon from './svgIcon';
-import edit from './edit';
+import edit,{BlocksEdit, BlocksNavigation,useCurrent} from './edit';
 import save from './save';
 
 /**
@@ -37,9 +37,19 @@ registerBlockType( 'til/blocks-navigation', {
 
 	},
 
+	parent: [],
+
 	edit,
 
 	save,
 } );
 
-setDefaultBlockName();
+// setDefaultBlockName();
+
+export {
+	BlocksEdit,
+	BlocksNavigation,
+	edit,
+	save,
+	useCurrent
+}

@@ -7,14 +7,9 @@ const {
 	InnerBlocks,
 } = wp.blockEditor;
 
-const {useDispatch} = wp.data;
-const {createBlock} = wp.blocks;
-const {
-	IconButton,
-} = wp.components;
-
 import useCurrent from './useCurrent'
 import BlocksNavigation from './BlocksNavigation';
+import createAppender from './appender';
 
 const ALLOWED_BLOCKS = [ 'til/navigation-block' ];
 const INITIAL_ATTS = {
@@ -24,6 +19,32 @@ const BLOCKS_TEMPLATE = [
 	[ 'til/navigation-block',INITIAL_ATTS ]	
 ];
 
+const BlocksEdit = ({
+	clientId,
+	currentIndex,
+	toggleCurrent,	
+}) => {
+
+	const Appender = createAppender({...{
+		currentIndex,
+		toggleCurrent,
+		clientId,
+		initial_atts:INITIAL_ATTS
+	}});
+
+	return (
+		<div className="blocks-navigation__inner-container">
+
+			<InnerBlocks
+				allowedBlocks={ ALLOWED_BLOCKS }
+				renderAppender={ Appender }
+				template={BLOCKS_TEMPLATE}
+			/>
+
+		</div>
+	);
+}
+
 
 function BlocksContainer ({
 	className,
@@ -32,47 +53,20 @@ function BlocksContainer ({
 
 	const {currentIndex,toggleCurrent,count} = useCurrent(clientId);
 
-	const Appender = () => {
-
-		const {insertBlock} = useDispatch('core/block-editor');
-		const onAppend = () => {
-			console.log ('try to append block');
-			const newBlock = createBlock( 'til/navigation-block', INITIAL_ATTS );
-	
-			insertBlock( newBlock, (currentIndex + 1), clientId );
-			toggleCurrent(newBlock.clientId);
-		}
-	
-		return (
-			<IconButton 
-				onClick={onAppend} 
-				icon="plus-alt"
-				label="Add Navigation Block"			
-			/>
-		);
-	}
-
-
 	return (
-		<div 
-			className={ className }
-			// onSelectionStart={()=>{console.log('onSelectionStart')}}
-		>
+		<div className={ className }>
 			
 			<BlocksNavigation {...{currentIndex,toggleCurrent,count}} />
-			<div className="blocks-navigation__inner-container">
-
-				<InnerBlocks
-					allowedBlocks={ ALLOWED_BLOCKS }
-					renderAppender={ Appender }
-					template={BLOCKS_TEMPLATE}
-				/>
-
-			</div>
+			<BlocksEdit {...{clientId,currentIndex,toggleCurrent}} />
 		</div>		
 	)
 }
 
-export default BlocksContainer;
+export {
+	BlocksContainer as default,
+	BlocksEdit,
+	BlocksNavigation,
+	useCurrent,
+}
 
 

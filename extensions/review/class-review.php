@@ -28,6 +28,7 @@ if (!class_exists('\Tilnet\Review\Review')) :
         public static function add_actions () 
         {
             add_action( 'init', [__CLASS__,'register_post_type'] );
+            add_action('init',[__CLASS__,'register_meta']);
         }
         
         /**
@@ -67,7 +68,7 @@ if (!class_exists('\Tilnet\Review\Review')) :
                 'hierarchical'          => false,
                 'show_ui'               => true,
                 'show_in_nav_menus'     => true,
-                'supports'              => array( 'editor' ),
+                'supports'              => array('title','excerpt', 'editor','thumbnail','revisions','custom-fields' ),
                 'has_archive'           => true,
                 'rewrite'               => true,
                 'query_var'             => true,
@@ -81,6 +82,23 @@ if (!class_exists('\Tilnet\Review\Review')) :
                 ],
             ) );
             
+        }
+        
+        public static function register_meta ()
+        {
+            register_post_meta('review','rating',[
+                'show_in_rest'  =>  true,
+                'single'        =>  true,
+                'type'          =>  'number',
+                'description'   =>  'Stars',
+            ]);
+            
+            register_post_meta('review','delete_this',[
+                'show_in_rest'  =>  true,
+                'single'        =>  true,
+                'type'          =>  'number',
+                'description'   =>  'delete',
+            ]);            
         }
         
 

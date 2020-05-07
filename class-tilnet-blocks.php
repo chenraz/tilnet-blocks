@@ -106,10 +106,12 @@ if (!class_exists('Tilnet_Blocks')) :
         static public function init_extensions () 
         {
             self::$extensions = [
-                'Block'     => Block\Block::instance(),
-                'Rest_Api'  => Rest_Api\Rest_Api::instance(),
-                'Portfolio' => Portfolio\Portfolio::instance(),
-                'Review'    =>  Review\Review::instance(),
+                'Block'         => Block\Block::instance(),
+                'Rest_Api'      => Rest_Api\Rest_Api::instance(),
+                'Portfolio'     => Portfolio\Portfolio::instance(),
+                'Review'        => Review\Review::instance(),
+                'Custoemr'      => Customer\Customer::instance(),
+                'Widget_Areas'  => Widget_Areas\Widget_Areas::instance(),
             ];
         }
         

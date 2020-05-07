@@ -33,15 +33,8 @@ const UploadImage = (props) => {
 
     const image = defaultTo(attributes[name],{src: false,alt:''})
 
-    // const src = isUndefined(image)
-    //     ?   false
-    //     :   defaultTo(image.src,false);
-    // const alt = isUndefined(image)
-    //     ?   ''
-    //     :   defaultTo(image.alt,'');
 
     const onSetImage = (newImage) => {
-        console.log ('onsetImage new:',newImage);
         const newSrc = (size && ! isUndefined(newImage.sizes[size]))
             ?   newImage.sizes[size].url
             :   newImage.url;

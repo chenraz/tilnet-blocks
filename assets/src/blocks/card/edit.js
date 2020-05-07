@@ -7,16 +7,17 @@
  * Externals
  */
 
-import classNames from 'classnames/dedupe'
+import {useState, Fragment} from 'react'; 
+import classNames from 'classnames/dedupe';
+import {kebabCase,findIndex} from 'lodash';
 
 const { __ } = wp.i18n;
 const {
-    RichText,
+	InnerBlocks,
     InspectorControls,
-} = wp.blockEditor;
+    } = wp.blockEditor;
 const {
 	PanelBody,
-	ToggleControl,
 } = wp.components;
 
 
@@ -24,116 +25,90 @@ const {
 /**
  * Internals 
 */
-import '../../local-react-components/blocks/review/style.scss'
-import UploadImage from '../../components/UploadImage';
-import useAttributeAndClass, {useAttributeValueClass} from '../../components/useAttribute';
+// import '../../local-react-components/blocks/review/style.scss'
+// import OverlayIcon from './OverlayIcon';
+// import AboveIcon from './AboveIcon';
+// import BelowIcon from './BelowIcon';
+
+const template = [
+    ['core/group',{},[
+        ['core/heading',{level:3}],
+        ['core/paragraph'],
+        ['core/image']
+    ]]
+];
+
+
+// const TEMPLATE_OPTIONS = [
+//     {
+//         title: __('Title above image'),
+//         icon:  <AboveIcon />,
+//         template: [['core/group',{},[
+//             ['core/heading',{level:3}],
+//             ['core/paragraph'],
+//             ['core/image']
+//         ]]],
+//     },
+  
+//     {
+//         title: __('Title below image'),
+//         icon:  <BelowIcon />,
+//         template: [['core/group',{},[
+//             ['core/image'],
+//             ['core/heading',{level:3}],
+//             ['core/paragraph'],
+//         ]]],
+//     },  
+//     {
+//         title: __('Text above image'),
+//         icon:  <OverlayIcon />,
+//         template: [['core/group',{},[
+//             ['core/paragraph'],
+//             ['core/image']
+//         ]]],
+//     },   
+//     {
+//         title: __('Image above text'),
+//         icon:  <OverlayIcon />,
+//         template: [['core/group',{},[
+//             ['core/image'],
+//             ['core/paragraph'],
+//         ]]],
+//     },             
+// ];
+
 
 const CardEdit = ((props)=>{
 
     const { 
         attributes, 
         setAttributes,
+        innerBlocks,
     } = props;
+
+    // const {template:curTemplate} = attributes;
+
+	// const [ template, setTemplate ] = useState( curTemplate ? getTemplateName(curTemplate) : false);
+	// const [ template, setTemplate ] = useState( getTemplate(curTemplate));
+	// const showTemplateSelector = ! template;
     
-    const {
-        image,
-        title,
-        text,
-    } = attributes;
+    return (
+        <Fragment>
+            <InspectorControls key='inspector'>
+                <PanelBody title={ __( 'Layout' ) }>
 
-    const {className} = attributes;
+                </PanelBody>	            
+            </InspectorControls>
+            <div key='card' className={classNames(
+                    'wp-block-til-card',
+            )}>
 
-    useAttributeValueClass({
-        attrName: 'align',
-        attrDefault: null,
-    },props);    
-
-    const [,textOnImage,setTextOnImage] = useAttributeAndClass ({
-        attrName: 'onImage',
-        attrClassName: 'text-on-image',
-        attrDefault: false,
-    },props);
-
-    const [,withTitle,setWithTitle] = useAttributeAndClass ({
-        attrName: 'withTitle',
-        attrClassName: 'with-title',
-        attrDefault: false,
-    },props);    
-
-    const [,imageAbove,setImageAbove] = useAttributeAndClass ({
-        attrName: 'imageAbove',
-        attrClassName: 'image-above',
-        attrDefault: false,
-    },props); 
-    
-    const cardText = (
-        <div className='card-text'>
-            {withTitle &&
-                <RichText
-                    tagName="h3"
-                    className="card-title"
-                    placeholder="Add title"
-                    onChange={ (newTitle) => setAttributes({title:newTitle}) }
-                    value={ title }
-                />                   
-            }
-            <RichText
-                tagName="p"
-                className="card-text"
-                placeholder="Add text"
-                onChange={ (newText) => setAttributes({text:newText}) }
-                value={ text }
-            />  
-        </div>
-    );
-
-    const cardImage = (
-        <div className='card-image'>
-            <UploadImage
-                name='image'
-                attributes={attributes}
-                setAttributes={setAttributes}
-            />
-        </div>
-    );
-    
-    return ([
-        <InspectorControls key='inspector'>
-            <PanelBody title={ __( 'Layout' ) }>
-
-                <ToggleControl
-                    label={ __( 'Text on image' ) }
-                    checked={ textOnImage }
-                    onChange={ setTextOnImage }
-                />	 
-
-                { ! textOnImage &&
-                    <ToggleControl
-                        label={ __( 'Image Above' ) }
-                        checked={ imageAbove }
-                        onChange={ setImageAbove }
-                    />	                
-                }
-
-                <ToggleControl
-                    label={ __( 'With title' ) }
-                    checked={ withTitle }
-                    onChange={ setWithTitle }
-                />	 
-
-            </PanelBody>	            
-        </InspectorControls>,
-        <div key='card' className={classNames('wp-block-til-card',className)}>
-            {imageAbove &&
-                cardImage
-            }
-            {cardText}
-            {! imageAbove &&
-                cardImage
-            }
-
-        </div>
-    ]);    
+                <InnerBlocks
+                    template={template}
+                />
+            </div>
+        </Fragment>
+    );    
 });
 
 export default CardEdit;
